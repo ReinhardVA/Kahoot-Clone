@@ -16,4 +16,23 @@ const createQuiz = async (req, res) => {
     }
 }
 
-module.exports = {createQuiz}
+const getAllQuizzes = async(req, res) =>{
+    const allQuizzes = await Quiz.find();
+    res.render('quizList', {quizzes: allQuizzes})
+}
+
+const joinQuiz = async (req, res) => {
+    const {sessionId} = req.body;
+
+    res.redirect(`/api/lobby/${sessionId}`)
+}
+module.exports = {createQuiz, getAllQuizzes, joinQuiz}
+
+
+/*
+    Üye ve Giriş sistemi ✅
+    Quiz oluşturma ve kaydetme ✅
+    Lobi oluşturma ✅
+    Lobiye katılım ❌
+    Oyun başlatma, Her soruyu bastırma, Sorular arasında puan tablosu, Her soruda geri sayım
+*/

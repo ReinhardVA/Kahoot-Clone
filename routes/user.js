@@ -19,7 +19,7 @@ router.get('/profile', authMiddleware, (req, res) => {
     res.render('secret', {username: req.user.username})
 })
 
-router.get('logout', (req, res) => {
+router.get('/logout', (req, res) => {
     res.clearCookie("token");
     res.redirect("/");
 })

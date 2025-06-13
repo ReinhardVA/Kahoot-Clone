@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hosting Quiz: <%= quiz.title %></h1>
+    <button onclick="startQuestion()">Start Next Question</button>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io()
+        const sessionId = "<%= sessionId %>";
+        socket.emit('join-session', sessionId)
+
+        let currentQuestion = 0;
+
+        const question = "<%- JSON.stringify(quiz.questions) %>";
+
+        function startQuestion(){
+            if(currentQuestion < questions.length){
+                socket.emit('start-question', {
+                    sessionId,
+                    question: questions[currentQuestion]
+                });
+                currentQuestion++;
+            }
+        }
+    </script>
+</body>
+</html>

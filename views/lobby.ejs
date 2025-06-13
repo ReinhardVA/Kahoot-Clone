@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby</title>
+</head>
+<body>
+    <h1>Lobby for Quiz: <%= quiz.title %></h1>
+    <p>Session ID: <%= sessionId %></p>
+
+    <h3>Player Joined:</h3>
+    <ul id="players"></ul>
+
+    <button onclick="startQuiz()">Start Quiz</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const sessionId = "<%= sessionId %>";
+
+        socket.emit("host-join-lobby", sessionId);
+
+        socket.on("player-joined", (playerName) => {
+            const li = document.createElement("li");
+            li.innerText = playerName;
+            document.getElementById("players").appendChild(li)
+        });
+
+        function startQuiz(){
+            window.location.href = `/api/host/${sessionId}?quizId=<%= quiz._id %>`
+        }
+    </script>
+</body>
+</html>

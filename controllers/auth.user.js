@@ -41,7 +41,7 @@ const login = async (req, res) => {
             httpOnly: true,
             maxAge: 3600000
         })
-        res.render("secret");
+        res.render("secret", {user});
 
     } catch (error) {
         res.send("Login failed: " + error.message)
