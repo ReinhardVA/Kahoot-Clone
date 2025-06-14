@@ -4,14 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join Quiz Lobby</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9fafb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #1f2937;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3b82f6;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+    </style>
 </head>
 <body>
     <h1>Join a Quiz Lobby</h1>
     <form action="/api/join" method="POST">
-        <label for="sessionId">Enter Session ID:</label>
-        <input type="text" id="sessionId" name="sessionId" required>
-        <label for="playerName">Enter your nickname:</label>
-        <input type="text" id="playerName" name="playerName" required>
+        <label for="sessionId">Enter Session ID</label>
+        <input type="text" id="sessionId" name="sessionId" placeholder="e.g. ABC123" required>
+
+        <label for="playerName">Enter Your Nickname</label>
+        <input type="text" id="playerName" name="playerName" placeholder="Your name..." required>
+
         <button type="submit">Join</button>
     </form>
 </body>

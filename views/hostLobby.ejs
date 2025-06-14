@@ -4,35 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Host Lobby</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f5f9;
+            padding: 40px;
+            color: #1f2937;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #111827;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #4b5563;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        ul li {
+            padding: 10px;
+            background-color: #e5e7eb;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+    </style>
 </head>
 <body>
     <h1>Host Lobby - Quiz: <%= quiz.title %></h1>
     
-    <p>sessionId: <%= sessionId %></p>
+    <p>Session ID: <%= sessionId %> </p>
     
     <h3>Players Joined:</h3>
     <ul id="players"></ul>
 
     <button onclick="startQuiz()">Start Quiz</button>
-    
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        const socket = io()
+
+        const socket = io();
         const sessionId = "<%= sessionId %>";
 
-        socket.emit("host-join-lobby", sessionId)
+        // --- Backend tarafında bu iki değer dinamik olarak eklenecek ---
+        // --------------------------------------------------------------
+
+        // document.getElementById("quiz-title").innerText = quiz.title;
+        // document.getElementById("session-id").innerText = sessionId;
+
+
+        socket.emit("host-join-lobby", sessionId);
 
         socket.on("player-joined", (playerName) => {
             const li = document.createElement("li");
             li.innerText = playerName;
             document.getElementById("players").appendChild(li);
-        })
+        });
 
-        function startQuiz(){
+        function startQuiz() {
             socket.emit("start-quiz", {
                 sessionId: sessionId,
                 questions: <%- JSON.stringify(quiz.questions) %>
-            })
+            });
         }
     </script>
 </body>

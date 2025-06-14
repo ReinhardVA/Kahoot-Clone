@@ -1,17 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+  <style>
+    /* Reset ve temel stiller */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+    .login-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      width: 320px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    h1 {
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      font-size: 2rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    input[type="text"],
+    input[type="password"] {
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: background-color 0.3s ease;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    button {
+      background-color: #5a4de8;
+      border: none;
+      padding: 0.85rem;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #4038b8;
+    }
+    p {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+    a {
+      color: #ffd369;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
+  <div class="login-container">
     <h1>Login</h1>
     <form action="/api/login" method="POST">
-        <input type="text" name="username" placeholder="username">
-        <input type="password" name="password" placeholder="password">
-        <button>login</button>
+      <input type="text" name="username" placeholder="Username" required autocomplete="username" />
+      <input type="password" name="password" placeholder="Password" required autocomplete="current-password" />
+      <button type="submit">Login</button>
     </form>
     <p>Don't have an account? <a href="/api/register">Register</a></p>
+  </div>
 </body>
 </html>

@@ -3,51 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Quiz!</title>
+    <title>Create Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-top: 30px;
+            color: #111827;
+        }
+
+        form {
+            width: 90%;
+            max-width: 600px;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .question-block {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f9fafb;
+        }
+
+        button {
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .add-btn {
+            background-color: #10b981;
+        }
+
+        .add-btn:hover {
+            background-color: #059669;
+        }
+    </style>
 </head>
 <body>
-    <h1>CREATE QUIZ</h1>
+    <h1>Create Quiz</h1>
     <form action="/api/createQuiz" method="POST">
-        
-        <input type="text" name="title" placeholder="Quiz title" required>
+        <label for="quiz-title">Quiz Title</label>
+        <input type="text" id="quiz-title" name="title" placeholder="Enter quiz title" required>
 
-        <div id="question-container">
+        <div id="question-container"></div>
 
-        </div>
-
-        <button type="button" onclick="addQuestion()"> Add Question </button> <br><br>
-        <button type="submit">Submit quiz</button>
+        <button type="button" class="add-btn" onclick="addQuestion()">Add Question</button><br><br>
+        <button type="submit">Submit Quiz</button>
     </form>
+
     <script>
         let questionCount = 0;
-        function addQuestion(){
+
+        function addQuestion() {
             const container = document.getElementById('question-container');
             const qIndex = questionCount++;
 
             const div = document.createElement('div');
-            div.classList.add('question-block')
+            div.classList.add('question-block');
             div.innerHTML = `
-                <div class="question-block">
-                    <h3>Question ${qIndex + 1}</h3>
-                    <label>Question Text: </label>
-                    <input type="text" name="questions[${qIndex}][questionText]" required><br>
-        
-                    <label>Option A:</label>
-                    <input type="text" name="questions[${qIndex}][options][A]" required><br>
-                    <label>Option B:</label>
-                    <input type="text" name="questions[${qIndex}][options][B]" required><br>
-                    <label>Option C:</label>
-                    <input type="text" name="questions[${qIndex}][options][C]" required><br>
-                    <label>Option D:</label>
-                    <input type="text" name="questions[${qIndex}][options][D]" required><br>
+                <h3>Question ${qIndex + 1}</h3>
 
-                    <label>Correct Option (A/B/C/D):</label>
-                    <input type="text" name="questions[${qIndex}][correctIndex]" required><br><br>
-                </div>`;
+                <label>Question Text</label>
+                <input type="text" name="questions[${qIndex}][questionText]" required>
 
-                container.appendChild(div);
+                <label>Option A</label>
+                <input type="text" name="questions[${qIndex}][options][A]" required>
+
+                <label>Option B</label>
+                <input type="text" name="questions[${qIndex}][options][B]" required>
+
+                <label>Option C</label>
+                <input type="text" name="questions[${qIndex}][options][C]" required>
+
+                <label>Option D</label>
+                <input type="text" name="questions[${qIndex}][options][D]" required>
+
+                <label>Correct Option (A/B/C/D)</label>
+                <input type="text" name="questions[${qIndex}][correctIndex]" required>
+            `;
+
+            container.appendChild(div);
         }
-        window.onload = addQuestion
+
+        window.onload = addQuestion;
     </script>
 </body>
 </html>
