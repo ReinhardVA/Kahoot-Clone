@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Lobby</title>
+</head>
+<body>
+    <h1> Welcome to the Quiz Lobby! </h1>
+    <p>Quiz: <%= quiz.title %></p>
+    <p>Waiting for host to start...</p>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io()
+        const sessionId = "<%= sessionId %>";
+        const playerName = "<%= playerName %>";
+        socket.emit('player-join', {
+            sessionId,
+            name: playerName
+        });
+        console.log("Joining player:", playerName, "to", sessionId);
+        socket.on("question", (questionData) => {
+            console.log("Quiz started! First question: ", questionData)
+            //window.location.href = `/api/play/${sessionId}?question=1`
+        })
+    </script>
+</body>
+</html>

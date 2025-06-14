@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Quiz Lobby</title>
+</head>
+<body>
+    <h1>Join a Quiz Lobby</h1>
+    <form action="/api/join" method="POST">
+        <label for="sessionId">Enter Session ID:</label>
+        <input type="text" id="sessionId" name="sessionId" required>
+        <label for="playerName">Enter your nickname:</label>
+        <input type="text" id="playerName" name="playerName" required>
+        <button type="submit">Join</button>
+    </form>
+</body>
+</html>
