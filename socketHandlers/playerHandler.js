@@ -1,13 +1,13 @@
 //const socket = import("socket.io")
 
-const sessions = require('../sessionStore')
+const sessionMap = require('../sessionStore')
 module.exports = function handlePlayerEvents(socket, io) {
     socket.on('player-join', ({ sessionId, name}) => {
         socket.join(sessionId);
-        if(!sessions[sessionId]){
-            sessions[sessionId] = {}
+        if(!sessionMap[sessionId]){
+            sessionMap[sessionId] = {}
         }
-        sessions[sessionId][socket.Id] = {
+        sessionMap[sessionId][socket.Id] = {
             name,
             score: 0,
             answer: null,
@@ -18,15 +18,15 @@ module.exports = function handlePlayerEvents(socket, io) {
     });
 
     socket.on('submit-answer', ({sessionId, answer}) => {
-        if(sessions[sessionId] && sessions[sessionId][socket.Id]){
-            sessions[sessionId][socket.Id].answer = answer;
+        if(sessionMap[sessionId] && sessionMap[sessionId][socket.Id]){
+            sessionMap[sessionId][socket.Id].answer = answer;
         }
     });
 
     socket.on("disconnect", () => {
-        for(let sessionId in sessions) {
-            if(sessions[sessionId][socket.id]){
-                delete sessions[sessionId][socket.id];
+        for(let sessionId in sessionMap) {
+            if(sessionMap[sessionId][socket.id]){
+                delete sessionMap[sessionId][socket.id];
             }
         }
     })

@@ -1,5 +1,5 @@
 //vconst socket = import("socket.io")
-const { sessions } = require("../sessionStore");
+const sessionMap  = require("../sessionStore");
 
 module.exports = function handleHostEvents(socket, io){
     socket.on('host-join-lobby', (sessionId) => {
@@ -29,22 +29,22 @@ module.exports = function handleHostEvents(socket, io){
                 question,
                 index: currentQuestionIndex + 1
             });
-            const answer = {};
+            const answers = {};
             
             io.to(sessionId).emit("question-started");
-            // const answerListener = ({sessionId: sId, answer}) => {
-            //     if(sId !== sessionId) return;
-            //     answer[socket.id] = answer;
-            // };
+            const answerListener = ({sessionId: sId, answer}) => {
+                if(sId !== sessionId) return;
+                answers[socket.id] = answer;
+            };
 
-            // socket.on("submit-answer", answerListener);
+            socket.on("submit-answer", answerListener);
 
             setTimeout(() => {
-                //socket.removeListener("submit-answer", answerListener);
+                socket.removeListener("submit-answer", answerListener);
 
                 const scoreboard = [];
 
-                const sessionPlayers = sessions[sessionId];
+                const sessionPlayers = sessionMap[sessionId];
 
                 for(let socketId in sessionPlayers){
                     const player = sessionPlayers[socketId];
@@ -61,7 +61,7 @@ module.exports = function handleHostEvents(socket, io){
                 }
 
                 io.to(sessionId).emit("show-scoreboard", scoreboard);
-                currentQuestionIndex;
+                currentQuestionIndex++;
                 
                 setTimeout(sendNextQuestion, 5000)
 

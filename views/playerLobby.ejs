@@ -27,13 +27,13 @@
         const playerName = "<%= playerName %>";
         
         socket.emit('player-join', {
-            sessionId,
+            sessionId : sessionId,
             name: playerName
         });
         
         function submitAnswer(answerKey){
             socket.emit("submit-answer", {
-                sessionId,
+                sessionId: sessionId,
                 answer: answerKey
             });
             document.getElementById("status").innerText = "Answer submitted!";
