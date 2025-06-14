@@ -35,14 +35,14 @@
 ## 📁 Proje Yapısı
 
 
-├── models/             # Mongoose şemaları (User, Quiz)
-├── routes/             # Express yönlendirmeleri
-├── controllers/        # İş mantığı
-├── socketHandlers/     # Socket.io olayları (host & player)
-├── views/              # EJS şablonları
-├── sessionStore.js     # Oturum verileri (memory)
-├── app.js              # Ana uygulama dosyası
-├── .env                # Gizli bilgiler (JWT\_KEY vb.)
+├── models/             # Mongoose şemaları (User, Quiz) <br>
+├── routes/             # Express yönlendirmeleri <br>
+├── controllers/        # İş mantığı <br>
+├── socketHandlers/     # Socket.io olayları (host & player) <br>
+├── views/              # EJS şablonları <br>
+├── sessionStore.js     # Oturum verileri (memory) <br>
+├── app.js              # Ana uygulama dosyası <br>
+├── .env                # Gizli bilgiler (JWT\_KEY vb.) <br>
 
 ## 🧪 Örnek Kullanıcı Akışı
 
