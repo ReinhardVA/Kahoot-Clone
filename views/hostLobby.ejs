@@ -29,8 +29,10 @@
         })
 
         function startQuiz(){
-            //window.location.href = `/api/host/${sessionId}?quizId=<%= quiz._id %>`;
-            console.log("Quiz başlatma butonu")
+            socket.emit("start-quiz", {
+                sessionId: sessionId,
+                questions: <%- JSON.stringify(quiz.questions) %>
+            })
         }
     </script>
 </body>

@@ -4,25 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join Lobby</title>
+    <style>
+        body {font-family: Arial, Helvetica, sans-serif; text-align: center;}
+        button {margin: 8px; padding: 10px 20px; font-size: 16px;}
+        #coundown{font-weight: bold; font-size: 24px; margin: 10px;}
+    </style>
 </head>
 <body>
     <h1> Welcome to the Quiz Lobby! </h1>
     <p>Quiz: <%= quiz.title %></p>
-    <p>Waiting for host to start...</p>
-    
+    <div id="status"><p>Waiting for host to start...</p></div>
+    <p id="countdown"></p>
+    <div id="question-container"></div>
+    <div id="scoreboard-container" style="display: none;"></div>
+
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        
         const socket = io()
         const sessionId = "<%= sessionId %>";
         const playerName = "<%= playerName %>";
+        
         socket.emit('player-join', {
             sessionId,
             name: playerName
         });
-        console.log("Joining player:", playerName, "to", sessionId);
-        socket.on("question", (questionData) => {
-            console.log("Quiz started! First question: ", questionData)
-            //window.location.href = `/api/play/${sessionId}?question=1`
+        
+        function submitAnswer(answerKey){
+            socket.emit("submit-answer", {
+                sessionId,
+                answer: answerKey
+            });
+            document.getElementById("status").innerText = "Answer submitted!";
+        }
+        socket.on("show-question", (data) => {
+            // Hide lobby UI, show question + options
+            
+            document.getElementById("status").innerText = `Question ${data.index}`;
+            document.getElementById("scoreboard-container").style.display = "none";
+            const question = data.question;
+            const container = document.getElementById("question-container");
+
+            // Show question and options
+            let optionsHTML = "";
+            
+            for(const [key, text] of Object.entries(question.options)){
+                optionsHTML += `<button onclick="submitAnswer('${key}')">${key}: ${text}</button><br/>`;
+            }
+            
+            container.innerHTML = `
+            <h2>${question.questionText}</h2>
+            ${optionsHTML}
+            `;
+            
+            // Countdown
+            let timeLeft = 15;
+            const countdownEl = document.getElementById("countdown");
+            countdownEl.innerText = `Time left: ${timeLeft}s`;
+
+            const timer = setInterval(() => {
+                timeLeft--;
+                countdownEl.innerText = `Time left: ${timeLeft}s`;
+                if(timeLeft <= 0) clearInterval(timer);
+            }, 1000);
+
+            // Disable options after selection
+            // function disableOptions(){
+            //     const children = optionsList.children;
+            //     for(let i = 0; i < children.length; i++){
+            //         children[i].style.pointerEvents = "none";
+            //         children[i].style.opacity = "0.6";
+            //     }
+            // }
+        });
+
+        socket.on("show-scoreboard", (scoreData) => {
+            // Hide question, show scoreboard
+            document.getElementById("question-container").innerText = "";
+            document.getElementById("countdown").innerText = "";
+            document.getElementById("status").innerText = "Scoreboard";
+            const scoreboardContainer = document.getElementById("scoreboard-container");
+            
+            scoreboardContainer.style.display = "block";
+            
+            scoreboardContainer.innerHTML = `
+                <h2>Scoreboard</h2>
+                ${scoreboard.map(player => `<p>${player.name}: ${player.score}</p>`).join("")}
+            `;
+        })
+
+        socket.on("quiz-end", () => {
+            document.getElementById("status").innerText = "Quiz Finished!";
+            document.getElementById("question-container").innerHTML = "";
+            document.getElementById("countdown").innerText = "";
         })
     </script>
 </body>
